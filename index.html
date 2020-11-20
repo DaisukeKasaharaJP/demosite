@@ -6,56 +6,406 @@
 　<title>グラフ</title> 
 </head>
 <body>
-  <h1>折れ線グラフ</h1>
-  <canvas id="myLineChart"></canvas>
+  <div style="width:480px;margin:auto;">
+
+  <section>
+    <h1>折れ線グラフ 180点</h1>
+    <canvas id="myLineChart"></canvas>
+    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.js"></script>
 
+    <script>
+    
+    window.addEventListener('load', function(){
+
+      var ctx = document.getElementById("myLineChart");
+
+      /**
+      *
+      *
+      **/
+      function drawBackground(target) {
+          var ctx1 = ctx.getContext("2d");
+
+          var xscale = target.scales["x-axis-0"];
+          var yscale = target.scales["y-axis-0"];
+          var left = xscale.left;
+          var top = yscale.top;
+          var high_top = yscale.getPixelForValue(35);
+          var high_height = yscale.getPixelForValue(25) - high_top; // 夏日
+          var low_top = yscale.getPixelForValue(0);
+          var low_height = yscale.getPixelForValue(-5) - low_top;   // 真冬日
+
+          var gradient = ctx1.createLinearGradient(0, 0, 0, 400);
+          gradient.addColorStop(0, 'rgba( 41, 177, 204, 1)');   
+          gradient.addColorStop(1, 'rgba( 41, 177, 204, 0)');
+
+          // 赤い範囲
+        // ctx1.fillStyle = "rgba(255, 0, 100, 0.2)";
+          ctx1.fillStyle  = gradient;
+          ctx1.fillRect(left, top, xscale.width, yscale.height);
+        
+
+          // 青い範囲
+          //ctx1.fillStyle = "rgba(0, 100, 255, 0.2)";
+          //ctx1.fillRect(left, low_top, xscale.width, low_height);
+      }
+
+
+      var maps = {
+        "0": "0",
+        "20" : "MR4.0   0.001%",
+        "40" : "MR4.5  0.0032%",
+        "60" : "MR5.0    0.01%",
+        "80" : "Major MR  0.1%",
+        "100" : "20%",
+        "120" : "40%",
+        "140" : "50%",
+        "160" : "80%",
+        "180" : "100%",
+      }
+
+      var labels = [];
+      var data = [];
+      for(var i=0; i<=180; i++){
+        data.push( Math.ceil( Math.random() * 200));
+        labels.push('2020/'+ ("0" + (Math.ceil(i/30) + 1) ).slice(-2) +'')
+      }
+
+      //console.log(labels);
+
+
+      var myLineChart = new Chart(ctx, {
+        plugins: [{
+            beforeDraw: drawBackground
+        }],
+        type: 'line',
+        data: {
+          labels: labels, //['2020/07/01', '2020/08/01', '2020/09/01', '2020/10/01', '2020/11/01', '2020/12/01'],
+          datasets: [
+            {
+              label: '',
+              data: data, // [20, 80, 30, 100, 120, 60],
+              borderColor: "rgba(255,255,255,1)",
+              backgroundColor: "rgba(0,0,0,0)",
+              borderWidth: 1,
+              lineTension: 0,
+              pointBackgroundColor: "rgba(255,255,255, 0.9)",
+              pointBorderWidth: 0.5,
+            }
+          ],
+        },
+        options: {
+          legend:{
+            display:false
+          },
+          title: {
+            display: false,
+            text: 'RQ-PCR法のグラフ確認'
+          },
+
+          scales: {
+            yAxes: [{
+                ticks: {
+                    max: 200,
+                    beginAtZero: true,
+                    callback: function(label, index, labels){
+                      //console.log(label)
+                      return maps[String(label)];
+                    }
+                }
+            }],
+            xAxes: [{
+              ticks: {
+                /*
+                callback: function(value, index, values) {
+                  console.log(index)
+                  return value
+                },
+                */
+                maxRotation: 0,
+                minRotation: 0,
+                autoSkip: true,
+                maxTicksLimit: 6
+              },
+            }]
+          },
+          
+        }
+      });
+    })
+
+    </script>
+  </section>
+
+<hr>
+
+<section>
+  <h1>折れ線グラフ 90点</h1>
+  <canvas id="myLineChart2"></canvas>
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.js"></script>
+
   <script>
-  var ctx = document.getElementById("myLineChart");
+    
+  window.addEventListener('load', function(){
+  var ctx = document.getElementById("myLineChart2");
+
+  /**
+  *
+  *
+  **/
+  function drawBackground(target) {
+      var ctx1 = ctx.getContext("2d");
+
+      var xscale = target.scales["x-axis-0"];
+      var yscale = target.scales["y-axis-0"];
+      var left = xscale.left;
+      var top = yscale.top;
+      var high_top = yscale.getPixelForValue(35);
+      var high_height = yscale.getPixelForValue(25) - high_top; // 夏日
+      var low_top = yscale.getPixelForValue(0);
+      var low_height = yscale.getPixelForValue(-5) - low_top;   // 真冬日
+
+      var gradient = ctx1.createLinearGradient(0, 0, 0, 400);
+      gradient.addColorStop(0, 'rgba( 41, 177, 204, 1)');   
+      gradient.addColorStop(1, 'rgba( 41, 177, 204, 0)');
+
+      // 赤い範囲
+    // ctx1.fillStyle = "rgba(255, 0, 100, 0.2)";
+      ctx1.fillStyle  = gradient;
+      ctx1.fillRect(left, top, xscale.width, yscale.height);
+    
+
+      // 青い範囲
+      //ctx1.fillStyle = "rgba(0, 100, 255, 0.2)";
+      //ctx1.fillRect(left, low_top, xscale.width, low_height);
+  }
+
+
+  var maps = {
+    "0": "0",
+    "20" : "MR4.0   0.001%",
+    "40" : "MR4.5  0.0032%",
+    "60" : "MR5.0    0.01%",
+    "80" : "Major MR  0.1%",
+    "100" : "20%",
+    "120" : "40%",
+    "140" : "50%",
+    "160" : "80%",
+    "180" : "100%",
+  }
+
+  var labels = [];
+  var data = [];
+  for(var i=0; i<=90; i++){
+    data.push( Math.ceil( Math.random() * 200));
+    labels.push('2020/'+ ("0" + (Math.ceil(i*3/30) + 1) ).slice(-2) +'')
+  }
+
+  //console.log(labels);
+
+
   var myLineChart = new Chart(ctx, {
+    plugins: [{
+        beforeDraw: drawBackground
+    }],
     type: 'line',
     data: {
-      labels: ['2020/07/01', '2020/08/01', '2020/09/01', '2020/10/01', '2020/11/01', '2020/12/01'],
+      labels: labels, //['2020/07/01', '2020/08/01', '2020/09/01', '2020/10/01', '2020/11/01', '2020/12/01'],
       datasets: [
         {
           label: '',
-          data: [0.001, 0.1, 44, 0.0032, 50, 0],
-          borderColor: "rgba(255,0,0,1)",
+          data: data, // [20, 80, 30, 100, 120, 60],
+          borderColor: "rgba(255,255,255,1)",
           backgroundColor: "rgba(0,0,0,0)",
+          borderWidth: 1,
           lineTension: 0,
+          pointBackgroundColor: "rgba(255,255,255, 0.9)",
+          pointBorderWidth: 0.5,
         }
       ],
     },
     options: {
+      legend:{
+        display:false
+      },
       title: {
-        display: true,
+        display: false,
         text: 'RQ-PCR法のグラフ確認'
       },
-      
+
       scales: {
         yAxes: [{
-            type:"logarithmic",
             ticks: {
-                max: 1000,
+                max: 200,
                 beginAtZero: true,
                 callback: function(label, index, labels){
-                    // console.log(label);
-                    for( var i=-3; i<=3; i++){
-                        var v = Math.pow(10, i)
-
-                        if( v == label || v * 2 == label || v * 3 == label || v * 4 == label || v * 5 == label){
-                            return label;
-                        }
-                        
-                    }
+                  //console.log(label)
+                  return maps[String(label)];
                 }
             }
+        }],
+        xAxes: [{
+          ticks: {
+            /*
+            callback: function(value, index, values) {
+              console.log(index)
+              return value
+            },
+            */
+            maxRotation: 0,
+            minRotation: 0,
+            autoSkip: true,
+            maxTicksLimit: 6
+          },
         }]
       },
       
     }
   });
+  });
   </script>
+</section>
+
+<hr>
+
+<section>
+  <h1>折れ線グラフ 30点</h1>
+  <canvas id="myLineChart3"></canvas>
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.js"></script>
+
+  <script>
+    
+  window.addEventListener('load', function(){
+  var ctx = document.getElementById("myLineChart3");
+
+  /**
+  *
+  *
+  **/
+  function drawBackground(target) {
+      var ctx1 = ctx.getContext("2d");
+
+      var xscale = target.scales["x-axis-0"];
+      var yscale = target.scales["y-axis-0"];
+      var left = xscale.left;
+      var top = yscale.top;
+      var high_top = yscale.getPixelForValue(35);
+      var high_height = yscale.getPixelForValue(25) - high_top; // 夏日
+      var low_top = yscale.getPixelForValue(0);
+      var low_height = yscale.getPixelForValue(-5) - low_top;   // 真冬日
+
+      var gradient = ctx1.createLinearGradient(0, 0, 0, 400);
+      gradient.addColorStop(0, 'rgba( 41, 177, 204, 1)');   
+      gradient.addColorStop(1, 'rgba( 41, 177, 204, 0)');
+
+      // 赤い範囲
+    // ctx1.fillStyle = "rgba(255, 0, 100, 0.2)";
+      ctx1.fillStyle  = gradient;
+      ctx1.fillRect(left, top, xscale.width, yscale.height);
+    
+
+      // 青い範囲
+      //ctx1.fillStyle = "rgba(0, 100, 255, 0.2)";
+      //ctx1.fillRect(left, low_top, xscale.width, low_height);
+  }
+
+
+  var maps = {
+    "0": "0",
+    "20" : "MR4.0   0.001%",
+    "40" : "MR4.5  0.0032%",
+    "60" : "MR5.0    0.01%",
+    "80" : "Major MR  0.1%",
+    "100" : "20%",
+    "120" : "40%",
+    "140" : "50%",
+    "160" : "80%",
+    "180" : "100%",
+  }
+
+  var labels = [];
+  var data = [];
+  for(var i=0; i<=30; i++){
+    data.push( Math.ceil( Math.random() * 200));
+    labels.push('2020/'+ ("0" + (Math.ceil(i*6/30) + 1) ).slice(-2) +'')
+  }
+
+  //console.log(labels);
+
+
+  var myLineChart = new Chart(ctx, {
+    plugins: [{
+        beforeDraw: drawBackground
+    }],
+    type: 'line',
+    data: {
+      labels: labels, //['2020/07/01', '2020/08/01', '2020/09/01', '2020/10/01', '2020/11/01', '2020/12/01'],
+      datasets: [
+        {
+          label: '',
+          data: data, // [20, 80, 30, 100, 120, 60],
+          borderColor: "rgba(255,255,255,1)",
+          backgroundColor: "rgba(0,0,0,0)",
+          borderWidth: 1,
+          lineTension: 0,
+          pointBackgroundColor: "rgba(255,255,255, 0.9)",
+          pointBorderWidth: 0.5,
+        }
+      ],
+    },
+    options: {
+      legend:{
+        display:false
+      },
+      title: {
+        display: false,
+        text: 'RQ-PCR法のグラフ確認'
+      },
+
+      scales: {
+        yAxes: [{
+            ticks: {
+                max: 200,
+                beginAtZero: true,
+                callback: function(label, index, labels){
+                  //console.log(label)
+                  return maps[String(label)];
+                }
+            }
+        }],
+        xAxes: [{
+          ticks: {
+            /*
+            callback: function(value, index, values) {
+              console.log(index)
+              return value
+            },
+            */
+            maxRotation: 0,
+            minRotation: 0,
+            autoSkip: true,
+            maxTicksLimit: 6
+          },
+        }]
+      },
+      
+    }
+  });
+  });
+  </script>
+</section>
+
+<div style="margin-top:30%">&nbsp;</div>
+
+
+</div>
+
+
+
+
 </body>
 
 </html>
